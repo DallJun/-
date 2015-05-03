@@ -1,5 +1,6 @@
 package garrag.view;
 
+import garrag.db.LYDao;
 import garrag.db.MyDataBase;
 import garrag.shiti.User;
 import garrag.utirl.MyAdapter;
@@ -41,7 +42,7 @@ public class MainActivity extends SherlockActivity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
-		Toast.makeText(this, "Got click: " + item.toString(), Toast.LENGTH_SHORT).show();
+		//TODO 添加班级课程
 		return true;
 	}
 	
@@ -84,7 +85,8 @@ public class MainActivity extends SherlockActivity {
 	protected void onResume() {
 		super.onResume();
 		ListView listView = (ListView) findViewById(R.id.listView1);
-		users = showData();//拿到数据源
+		LYDao dao = new LYDao(this);
+		users = dao.getStudents();//拿到数据源
 		adapter = new MyAdapter(this, users, visflag);
 		listView.setAdapter(adapter);
 		//选择复选框
@@ -92,7 +94,6 @@ public class MainActivity extends SherlockActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
 				if(visflag)
                 {  
 					//得到viewHolder
@@ -176,26 +177,6 @@ public class MainActivity extends SherlockActivity {
 //        return super.onOptionsItemSelected(item);    
 //    }	
 	
-	//通过数据库拿到 数据源
-	public List<User> showData() {
-		List<User> users = new ArrayList<User>();
-		MyDataBase myDataBase = new MyDataBase(this, "blue_user");
-		SQLiteDatabase db = myDataBase.getReadableDatabase();
-		Cursor cursor = db.query("user", new String[]{"sid", "sname","smac"}, null, null, null, null, null);
-		while(cursor.moveToNext()) {
-			String name = cursor.getString(cursor.getColumnIndex("sname"));
-			String id = cursor.getString(cursor.getColumnIndex("sid"));
-			String mac = cursor.getString(cursor.getColumnIndex("smac"));
-			User u = new User();
-			u.setName(name);
-			u.setId(id);
-			u.setMac(mac);
-			users.add(u);
-		}
-		db.close();
-		myDataBase.close();
-		return users;
-	}
 	//根据ID删除数据库里面的数据
 	public void deleteData(int location) {
 		MyDataBase myDataBase = new MyDataBase(this, "blue_user");

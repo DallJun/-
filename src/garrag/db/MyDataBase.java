@@ -22,7 +22,9 @@ public class MyDataBase extends SQLiteOpenHelper{
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		System.out.println("create a Database");
-		db.execSQL("create table user(sid int ,sname varchar(20),smac varchar(20))");
+//		db.execSQL("create table user(sid int ,sname varchar(20),smac varchar(20))");
+		db.execSQL("CREATE TABLE `user` (`sid` INT NOT NULL,`sname` VARCHAR(20) NULL,`smac` VARCHAR(20) NULL,PRIMARY KEY (`sid`));");
+		db.execSQL("CREATE TABLE `course` (`class` VARCHAR(20) NOT NULL,`subject` VARCHAR(20) NOT NULL,`monitor` VARCHAR(20) NULL,`classnum` INT NULL,`dep` VARCHAR(20) NULL,PRIMARY KEY (`class`, `subject`));");
 	}
 	
 	@Override
