@@ -31,8 +31,6 @@ import android.widget.TextView;
 
 public class AddActivity extends Activity {
 
-	//private EditText name;
-	//private EditText id;
 	private ListView listView;
 	private BluetoothAdapter bluetoothAdapter = null;
 	private BluetoothReceiver bluetoothReceiver = null;
@@ -69,6 +67,7 @@ public class AddActivity extends Activity {
 					
 					// 对输入的数据做处理
 					builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+						@Override
 						public void onClick(DialogInterface dialog, int whichButton) {
 							AlertDialog d = (AlertDialog) dialog;
 							eName = (EditText) d.findViewById(R.id.editText1);
@@ -85,6 +84,7 @@ public class AddActivity extends Activity {
 					
 					// 做取消输入的事情
 					builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+						@Override
 						public void onClick(DialogInterface dialog, int whichButton) {
 						      
 						}

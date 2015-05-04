@@ -8,5 +8,16 @@
     <style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <!-- API 14 theme customizations can go here. -->
     </style>
+    
+    <style name="MyActivityStyle" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+        <item name="android:actionBarSize">60dp</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>
+    </style>
+    
+    <style name="Widget.Styled.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+        <item name="android:displayOptions">useLogo|showTitle</item>
+        <item name="android:background">@color/bgcolor</item>
+    </style>
 
 </resources>

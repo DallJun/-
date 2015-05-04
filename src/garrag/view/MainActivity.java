@@ -2,20 +2,20 @@ package garrag.view;
 
 import garrag.db.LYDao;
 import garrag.db.MyDataBase;
+import garrag.shiti.MClass;
 import garrag.shiti.User;
 import garrag.utirl.MyAdapter;
 import garrag.utirl.ViewHolder;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
+import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.*;
@@ -30,10 +30,11 @@ public class MainActivity extends SherlockActivity {
 	MyAdapter adapter;  //适配器
 	boolean visflag = false;  //是否显示勾选框
 	List<User> users;   //用户列表
+	LYDao dao;
 	
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
-		getSherlock().setTitle("班级列表");
+		getSherlock().setTitle("学生列表");
         menu.add("add")
             .setIcon(R.drawable.add_class)
             .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
@@ -43,6 +44,8 @@ public class MainActivity extends SherlockActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
 		//TODO 添加班级课程
+		LYDao.addClass(new MClass());
+		Toast.makeText(this, "添加班级", Toast.LENGTH_SHORT).show();
 		return true;
 	}
 	
@@ -51,19 +54,23 @@ public class MainActivity extends SherlockActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		dao = new LYDao(this);//初始化数据库
 		tianjia = (Button) findViewById(R.id.button1);
 		chakan = (Button) findViewById(R.id.button2);
 		
 		MyDataBase myDataBase = new MyDataBase(this, "blue_user");
 		SQLiteDatabase db = myDataBase.getReadableDatabase();
 		
+		final Context self = this; 
 		tianjia.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				//跳转至添加页面 收集数据
-				Intent intents = new Intent();
-				intents.setClass(MainActivity.this, AddActivity.class);
-				startActivity(intents);
+//				Intent intents = new Intent();
+//				intents.setClass(MainActivity.this, AddActivity.class);
+//				startActivity(intents);
+				String str = LYDao.getMClass();
+				Toast.makeText(self, str, Toast.LENGTH_SHORT).show();
 			}
 		});
 		chakan.setOnClickListener(new OnClickListener() {
@@ -86,7 +93,7 @@ public class MainActivity extends SherlockActivity {
 		super.onResume();
 		ListView listView = (ListView) findViewById(R.id.listView1);
 		LYDao dao = new LYDao(this);
-		users = dao.getStudents();//拿到数据源
+		users = LYDao.getStudents();//拿到数据源
 		adapter = new MyAdapter(this, users, visflag);
 		listView.setAdapter(adapter);
 		//选择复选框
