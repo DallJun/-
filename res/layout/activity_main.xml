@@ -17,7 +17,7 @@
         android:text="姓名" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/class_dep"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/listView1"
@@ -25,7 +25,7 @@
         android:text="MAC地址" />
     
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/class_monitor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/listView1"

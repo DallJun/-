@@ -34,21 +34,41 @@ public class LYDao {
 	}
 	
 	static public void addClass(MClass mclass) {
-		db.execSQL("insert into course ('class','subject','monitor','classnum','dep') VALUES (?,?,?,?,?)",new Object[]{"网络工程4班", "数学", "周", 33, "计算机系"});
+		db.execSQL("replace into course ('class','subject','monitor','classnum','dep') VALUES (?,?,?,?,?)",
+				new Object[]{mclass.getClassName(), mclass.getSubject(), mclass.getMonitor(), 0, mclass.getDep()});
 	}
-	
-	static public String getMClass(){
-		String calssname = "";
-		String subject = "";
-		String monitor = "";
-		Cursor cursor = db.query("course", new String[]{"class","subject","monitor","classnum","dep"}, null, null, null, null, null);
-		System.out.println("获取班级");
+	/**
+	 * 获取所有的班级信息
+	 * @return
+	 */
+	static public ArrayList<MClass> getMClass(){
+		ArrayList<MClass> list = new ArrayList<MClass>();
+		Cursor cursor = db.rawQuery("select * from course", new String[]{});
 		while(cursor.moveToNext()){
-			calssname = cursor.getString(cursor.getColumnIndex("class"));
-			subject = cursor.getString(cursor.getColumnIndex("subject"));
-			monitor = cursor.getString(cursor.getColumnIndex("monitor"));
+			MClass c = new MClass();
+			c.setClassName(cursor.getString(cursor.getColumnIndex("class")));
+			c.setSubject(cursor.getString(cursor.getColumnIndex("subject")));
+			c.setMonitor(cursor.getString(cursor.getColumnIndex("monitor")));
+			c.setClassnum(cursor.getInt(cursor.getColumnIndex("classnum")));
+			c.setDep(cursor.getString(cursor.getColumnIndex("dep")));
+			list.add(c);
 		}
-		return "--------" + calssname + " : " + subject + " : " + monitor + "------";
+		return list;
 	}
-	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

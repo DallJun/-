@@ -66,11 +66,9 @@ public class MainActivity extends SherlockActivity {
 			@Override
 			public void onClick(View v) {
 				//跳转至添加页面 收集数据
-//				Intent intents = new Intent();
-//				intents.setClass(MainActivity.this, AddActivity.class);
-//				startActivity(intents);
-				String str = LYDao.getMClass();
-				Toast.makeText(self, str, Toast.LENGTH_SHORT).show();
+				Intent intents = new Intent();
+				intents.setClass(MainActivity.this, AddActivity.class);
+				startActivity(intents);
 			}
 		});
 		chakan.setOnClickListener(new OnClickListener() {

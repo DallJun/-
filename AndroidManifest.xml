@@ -34,9 +34,19 @@
             android:name=".SerachActivity"
             android:label="@string/title_activity_serach" >
         </activity>
+        <activity
+            android:name=".AddClassActivity"
+            android:label="@string/title_activity_serach" >
+        </activity>
+        <uses-library android:name="android.test.runner"/>  
     </application>
-
+	
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    
+    <instrumentation android:name="android.test.InstrumentationTestRunner"  
+            android:targetPackage="garrag.view" android:label="aaa"/>  
+    
 </manifest>
