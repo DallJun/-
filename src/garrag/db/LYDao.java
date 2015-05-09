@@ -43,7 +43,7 @@ public class LYDao {
 	 */
 	static public ArrayList<MClass> getMClass(){
 		ArrayList<MClass> list = new ArrayList<MClass>();
-		Cursor cursor = db.rawQuery("select * from course", new String[]{});
+		Cursor cursor = db.rawQuery("select * from course order by subject", new String[]{});
 		while(cursor.moveToNext()){
 			MClass c = new MClass();
 			c.setClassName(cursor.getString(cursor.getColumnIndex("class")));

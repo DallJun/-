@@ -64,12 +64,12 @@
             android:textSize="12dp" />
     </LinearLayout>
 
-    <ImageButton
+    <!-- <ImageButton
         android:id="@+id/imageButton1"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/class_right" />
+        android:src="@drawable/class_right" /> -->
     
 </RelativeLayout>

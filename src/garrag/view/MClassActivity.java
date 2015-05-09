@@ -1,5 +1,6 @@
 package garrag.view;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import garrag.db.LYDao;
@@ -10,6 +11,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,7 +27,7 @@ public class MClassActivity extends SherlockActivity {
 	LYDao dao;
 	Context mComtext;
 	ListView listView;
-	
+	ArrayList<MClass> list;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,9 +40,23 @@ public class MClassActivity extends SherlockActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		ArrayList<MClass> list = dao.getMClass();
+		list = dao.getMClass();
 		ClassListAdpater adp = new ClassListAdpater(list);
 		listView.setAdapter(adp);
+		listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				MClass c = list.get(arg2);
+				Intent intent = new Intent();
+				intent.putExtra("class", (Serializable)c);
+				intent.setClass(MClassActivity.this, ClassDetailActivity.class);
+				startActivity(intent);
+			}
+			
+		});
+		
 	}
 	
 	@Override
