@@ -6,6 +6,7 @@ import garrag.db.LYDao;
 import garrag.shiti.MClass;
 import garrag.shiti.User;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -56,7 +57,9 @@ public class ClassDetailActivity extends SherlockActivity {
 			@Override
 			public void onClick(View arg0) {
 				//进入班级学生列表
-				Toast.makeText(context, mc.getClassName() ,1).show();
+//				Toast.makeText(context, mc.getClassName() ,1).show();
+				Intent it = new Intent(ClassDetailActivity.this,MainActivity.class);
+				startActivity(it);
 			}
 		});
 	}
