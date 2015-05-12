@@ -54,9 +54,15 @@ public class ClassDetailActivity extends SherlockActivity {
 			@Override
 			public void onClick(View arg0) {
 				//进入班级学生列表
+<<<<<<< HEAD
 				Intent intent = new Intent(ClassDetailActivity.this, ClassStudentListActivity.class);
 				intent.putExtra("class", mc);
 				startActivity(intent);
+=======
+//				Toast.makeText(context, mc.getClassName() ,1).show();
+				Intent it = new Intent(ClassDetailActivity.this,MainActivity.class);
+				startActivity(it);
+>>>>>>> origin/master
 			}
 		});
 	}
