@@ -172,16 +172,8 @@ System.out.println("user have count-----------:" + users.size());
 	}
 	//添加用户
 	public void addUser(User u) {
-		ContentValues contentValues = new ContentValues();
-		contentValues.put("sid", u.getId());
-		contentValues.put("sname", u.getName());
-		contentValues.put("smac", u.getMac());
-		MyDataBase myDataBase = new MyDataBase(this, "blue_user");
-		SQLiteDatabase db = myDataBase.getWritableDatabase();
-		db.insert("user", null, contentValues);
+		dao.addStudent(u);
 		dao.addCheckItem(u ,mc);
-		db.close();
-		myDataBase.close();
 	}
 	
 	@Override

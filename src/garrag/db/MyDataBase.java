@@ -27,7 +27,7 @@ public class MyDataBase extends SQLiteOpenHelper{
 		//班级课程表
 		db.execSQL("CREATE TABLE `course` (`class` VARCHAR(20) NOT NULL,`subject` VARCHAR(20) NOT NULL,`monitor` VARCHAR(20) NULL,`classnum` INT NULL,`dep` VARCHAR(20) NULL,PRIMARY KEY (`class`, `subject`));");
 		//考勤表
-		db.execSQL("CREATE TABLE `t_check` (`class` INT NOT NULL,`subject` VARCHAR(20) NOT NULL,`sid` INT NULL,`sgin` INT NULL DEFAULT 0,`unsgin` INT NULL DEFAULT 0);");
+		db.execSQL("CREATE TABLE `t_check` (`class` INT NOT NULL,`subject` VARCHAR(20) NOT NULL,`sid` INT NULL,`sgin` INT NULL DEFAULT 0,`unsgin` INT NULL DEFAULT 0, PRIMARY KEY (`class`, `subject`,'sid'));");
 	}
 	
 	@Override

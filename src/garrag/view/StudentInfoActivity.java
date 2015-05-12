@@ -1,4 +1,5 @@
 package garrag.view;
+import garrag.shiti.MClass;
 import garrag.shiti.User;
 
 import java.io.Serializable;
@@ -35,6 +36,8 @@ public class StudentInfoActivity extends Activity implements OnClickListener{
 	private boolean edit = false;
 	//要显示的学生信息
 	private User user;
+	private MClass mc;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -43,6 +46,7 @@ public class StudentInfoActivity extends Activity implements OnClickListener{
 		setContentView(R.layout.activity_student_info);
 		Intent intent = getIntent();
 		user = (User) intent.getSerializableExtra("user");
+		mc = (MClass) intent.getSerializableExtra("class");
 		initView();
 		initListener();
 		initData();
@@ -60,7 +64,7 @@ public class StudentInfoActivity extends Activity implements OnClickListener{
 		tv_out.setText("");
 		tv_nummber.setText(user.getId());
 		tv_sushe.setText("");
-		tv_class.setText("信息显示不完全，查看StudentInfoActivity");
+		tv_class.setText(mc.getClassName());
 	}
 	/**
 	 * 初始化监听

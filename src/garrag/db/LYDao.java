@@ -1,5 +1,6 @@
 package garrag.db;
 
+import garrag.shiti.KaoqingDetail;
 import garrag.shiti.MClass;
 import garrag.shiti.User;
 
@@ -35,7 +36,6 @@ public class LYDao {
 	
 	static public List<User> getStudentsBySubject(MClass mc) {
 		List<User> users = new ArrayList<User>();
-//		Cursor cursor = db.query("kaoqing", new String[]{"sid", "sname","smac"}, "class=? and subject=?", new String[]{mc.getClassName(), mc.getSubject()}, null, null, null);
 		Cursor cursor = db.rawQuery("select * from t_check as c INNER JOIN user as u on u.sid = c.sid where c.class=? and c.subject=?", new String[]{mc.getClassName(), mc.getSubject()});
 		while(cursor.moveToNext()) {
 			String name = cursor.getString(cursor.getColumnIndex("sname"));
@@ -80,6 +80,74 @@ public class LYDao {
 	public void addCheckItem(User u, MClass mc) {
 		db.execSQL("replace into t_check ('class','subject','sid') VALUES (?,?,?)",
 				new String[]{mc.getClassName(), mc.getSubject(), u.getId()});
+	}
+	/**
+	 * 添加学生
+	 * @param u
+	 */
+	public void addStudent(User u) {
+		db.execSQL("replace into user ('sid','sname','smac') VALUES (?,?,?)",
+				new String[]{u.getId(), u.getName(), u.getMac()});
+	}
+
+	/**
+	 * 根据ID删除对应的学生考勤记录
+	 * @param sid
+	 */
+	public void delStudentCheck(String sid) {
+		db.execSQL("delete from t_check where sid = ?",new Object[]{sid});
+	}
+
+	/**
+	 * 获取对应班级课程的所有学生考勤
+	 * @param mc
+	 * @return
+	 */
+	public List<KaoqingDetail> getKaoqingByClass(MClass mc) {
+		ArrayList<KaoqingDetail> list = new ArrayList<KaoqingDetail>();
+		Cursor cursor = db.rawQuery("select * from t_check as c INNER JOIN user as u on u.sid = c.sid where c.class=? and c.subject=?", new String[]{mc.getClassName(), mc.getSubject()});
+		while(cursor.moveToNext()){
+			KaoqingDetail kq = new KaoqingDetail();
+			kq.setChidao(cursor.getInt(cursor.getColumnIndex("sgin")));
+			kq.setQuedao(cursor.getInt(cursor.getColumnIndex("unsgin")));
+			User u = new User();
+			u.setId(cursor.getString(cursor.getColumnIndex("sid")));
+			u.setMac(cursor.getString(cursor.getColumnIndex("smac")));
+			u.setName(cursor.getString(cursor.getColumnIndex("sname")));
+			kq.setUser(u);
+			list.add(kq);
+		}
+		return list;
+	}
+
+	/**
+	 * 更新已到次数
+	 * @param mc 
+	 * @param u 
+	 * @param i
+	 */
+	public void updateSgin(User u, MClass mc, int i) { 
+		Cursor cursor  = db.rawQuery("select sgin from t_check where class=? and subject=? and sid=?", new String[]{mc.getClassName(), mc.getSubject(), u.getId()});
+		if(cursor.moveToNext()){
+			int num =  cursor.getInt(cursor.getColumnIndex("sgin"));
+			num+=i;
+			db.execSQL("update t_check set sgin=? where class=? and subject=? and sid=?", new Object[]{num, mc.getClassName(), mc.getSubject(), u.getId()});
+		}
+	}
+
+	/**
+	 * 更新未到次数
+	 * @param mc 
+	 * @param u    
+	 * @param i
+	 */
+	public void updateUnsgin(User u, MClass mc, int i) {
+		Cursor cursor  = db.rawQuery("select unsgin from t_check where class=? and subject=? and sid=?", new String[]{mc.getClassName(), mc.getSubject(), u.getId()});
+		while(cursor.moveToNext()){
+			int num =  cursor.getInt(cursor.getColumnIndex("unsgin"));
+			num+=i;
+			db.execSQL("update t_check set unsgin=? where class=? and subject=? and sid=?", new Object[]{num, mc.getClassName(), mc.getSubject(), u.getId()});
+		}
 	}
 	
 }

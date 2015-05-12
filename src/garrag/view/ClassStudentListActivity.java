@@ -46,7 +46,6 @@ public class ClassStudentListActivity extends SherlockActivity {
 			intent.putExtra("class", mc);
 			startActivity(intent);
 		}
-		
 		return true;
 	}
 	
@@ -83,21 +82,42 @@ public class ClassStudentListActivity extends SherlockActivity {
 				// 跳转到点名界面
 				Intent intent = new Intent();
 				intent.putExtra("user", (Serializable)users);
+				intent.putExtra("class", (Serializable)mc);
 				intent.setClass(ClassStudentListActivity.this, DianmingActivity.class);
 				startActivity(intent);
 			}
 		});
+		/**
+		 * 删除所选的学生
+		 */
 		bt_delete.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(ClassStudentListActivity.this, DeleteStudentActivity.class);
-				startActivity(intent);
+			public void onClick(View v) {  
+				if(users.size()>0){
+					if (visflag) {
+						for (int location = 0; location < MyAdapter
+								.getIsSelected().size();) {
+							if (MyAdapter.getIsSelected().get(location)) {
+								MyAdapter.getIsSelected().remove(location);
+								deleteData(location);// 删除数据根据id
+								users.remove(location);
+								continue;
+							}
+							location++;
+						}
+					}
+
+				}
+				visflag = false;
+				adapter.setVisflag(false);
+				adapter.notifyDataSetChanged();
 			}
 		});
 		bt_kaoqing.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(ClassStudentListActivity.this, KaoqingDetailActivity.class);
+				intent.putExtra("class", (Serializable)mc);
 				startActivity(intent);
 			}
 		});
@@ -131,6 +151,7 @@ public class ClassStudentListActivity extends SherlockActivity {
 					//跳转到学生详情
 					Intent intent = new Intent(ClassStudentListActivity.this,StudentInfoActivity.class);
 					intent.putExtra("user", users.get(position));
+					intent.putExtra("class", (Serializable)mc);
 					startActivity(intent);
 				}
 			}    
@@ -146,7 +167,6 @@ public class ClassStudentListActivity extends SherlockActivity {
 				return false;
 			}
 		});
-		
 	}
 //	//添加菜单内容	
 //	public boolean onCreateOptionsMenu(Menu menu)    
@@ -210,11 +230,7 @@ public class ClassStudentListActivity extends SherlockActivity {
 	
 	//根据ID删除数据库里面的数据
 	public void deleteData(int location) {
-		MyDataBase myDataBase = new MyDataBase(this, "blue_user");
- 		SQLiteDatabase db = myDataBase.getWritableDatabase();
- 		db.delete("user", "sid=?", new String[]{users.get(location).getId()});
- 		db.close();
- 		myDataBase.close();
+		dao.delStudentCheck(users.get(location).getId());
 	}
 	//接受收集过来的数据
 	/*protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -231,12 +247,4 @@ public class ClassStudentListActivity extends SherlockActivity {
 			db.close();
 			myDataBase.close();
 		}
-	}*/
-	
-	
-	
-	
-	
-	
-	
-}
+	}*/}

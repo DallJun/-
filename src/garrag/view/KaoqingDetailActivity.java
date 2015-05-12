@@ -1,10 +1,14 @@
 package garrag.view;
+import garrag.db.LYDao;
 import garrag.shiti.KaoqingDetail;
-import garrag.utirl.MyAdapter;
+import garrag.shiti.MClass;
 
 import java.util.List;
 
-import android.app.Activity;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -12,14 +16,18 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-public class KaoqingDetailActivity extends Activity {
+import android.widget.Toast;
+public class KaoqingDetailActivity extends SherlockActivity {
 	private ListView listView;
 	private MyAdapter adapter = null;
+	LYDao dao;
+	MClass mc;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_kaoqing);
+		dao = new LYDao(this);
+		mc = (MClass)getIntent().getSerializableExtra("class");
 		initView();
 		initListener();
 		initData();
@@ -32,7 +40,7 @@ public class KaoqingDetailActivity extends Activity {
 			protected List<KaoqingDetail> doInBackground(Void... params) {
 				List<KaoqingDetail> list= null;
 				//查询数据库,xie dao
-				
+				list =  dao.getKaoqingByClass(mc);
 				return list;
 			}
 			@Override
@@ -78,16 +86,17 @@ public class KaoqingDetailActivity extends Activity {
 				holder = new ViewHolder();
 				arg1 = View.inflate(KaoqingDetailActivity.this, R.layout.item_kaoqing, null);
 				holder.name = (TextView) arg1.findViewById(R.id.name);
-				holder.quediao = (TextView) arg1.findViewById(R.id.queding);
+				holder.quediao = (TextView) arg1.findViewById(R.id.quedao);
 				holder.chidao = (TextView) arg1.findViewById(R.id.chidao);
 				arg1.setTag(holder);
 			}else{
 				holder = (ViewHolder) arg1.getTag();
 			}
 			KaoqingDetail detail = details.get(arg0);
-			holder.name.setText(detail.user.getName());
-			holder.name.setText(detail.quedao);
-			holder.name.setText(detail.chidao);
+			Toast.makeText(getApplicationContext(), detail.getUser().getName(), 1).show();
+			holder.name.setText(detail.getUser().getName());
+			holder.quediao.setText(detail.getQuedao()+"");
+			holder.chidao.setText(detail.getChidao()+"");
 			return arg1;
 		}
 	}
@@ -96,5 +105,21 @@ public class KaoqingDetailActivity extends Activity {
 		private TextView name;
 		private TextView quediao;
 		private TextView chidao;
+	}
+	
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSherlock().setTitle("考勤");
+		menu.add("返回").setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getTitleCondensed().equals("返回")) {
+			this.finish();
+		}
+		return true;
 	}
 }
