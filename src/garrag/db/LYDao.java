@@ -149,6 +149,18 @@ public class LYDao {
 			db.execSQL("update t_check set unsgin=? where class=? and subject=? and sid=?", new Object[]{num, mc.getClassName(), mc.getSubject(), u.getId()});
 		}
 	}
+
+	public KaoqingDetail getKaoqingByClassAndStudent(MClass mc, User user) {
+		KaoqingDetail kq = new KaoqingDetail();
+		Cursor cursor  = db.rawQuery("select * from t_check where sid=? and class=? and subject=?", new String[]{user.getId(), mc.getClassName(), mc.getSubject()});
+		while(cursor.moveToNext()){
+			kq.setChidao(cursor.getInt(cursor.getColumnIndex("sgin")));
+			kq.setQuedao(cursor.getInt(cursor.getColumnIndex("unsgin")));
+			kq.setUser(user);
+		}
+		return kq;
+	}
+	
 	
 }
 

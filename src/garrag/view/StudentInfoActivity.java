@@ -1,4 +1,6 @@
 package garrag.view;
+import garrag.db.LYDao;
+import garrag.shiti.KaoqingDetail;
 import garrag.shiti.MClass;
 import garrag.shiti.User;
 
@@ -37,6 +39,8 @@ public class StudentInfoActivity extends Activity implements OnClickListener{
 	//要显示的学生信息
 	private User user;
 	private MClass mc;
+	private KaoqingDetail kq;
+	LYDao dao;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,8 @@ public class StudentInfoActivity extends Activity implements OnClickListener{
 		Intent intent = getIntent();
 		user = (User) intent.getSerializableExtra("user");
 		mc = (MClass) intent.getSerializableExtra("class");
+		dao = new LYDao(getApplicationContext());
+		kq = dao.getKaoqingByClassAndStudent(mc, user);
 		initView();
 		initListener();
 		initData();
@@ -60,8 +66,8 @@ public class StudentInfoActivity extends Activity implements OnClickListener{
 		tv_address.setText("");
 		tv_email.setText("");
 		tv_houseaddress.setText("");
-		tv_in.setText("");
-		tv_out.setText("");
+		tv_in.setText(kq.getChidao()+"");
+		tv_out.setText(kq.getQuedao()+"");
 		tv_nummber.setText(user.getId());
 		tv_sushe.setText("");
 		tv_class.setText(mc.getClassName());
