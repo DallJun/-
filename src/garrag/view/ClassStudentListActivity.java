@@ -1,19 +1,15 @@
 package garrag.view;
-
 import garrag.db.LYDao;
 import garrag.db.MyDataBase;
 import garrag.shiti.MClass;
 import garrag.shiti.User;
 import garrag.utirl.MyAdapter;
 import garrag.utirl.ViewHolder;
-
 import java.io.Serializable;
 import java.util.List;
-
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -23,19 +19,20 @@ import android.view.View.OnClickListener;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-
-public class MainActivity extends SherlockActivity {
+public class ClassStudentListActivity extends SherlockActivity {
 	Button tianjia;  //添加按钮
 	Button chakan;   //查看按钮
 	MyAdapter adapter;  //适配器
 	boolean visflag = false;  //是否显示勾选框
 	List<User> users;   //用户列表
 	LYDao dao;
-	
+	MClass mc;
+	private Button bt_delete;
+	private Button bt_kaoqing;
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
-		getSherlock().setTitle("学生列表");
-        menu.add("add")
+		getSherlock().setTitle(mc.getClassName());
+        menu.add("扫描添加")
             .setIcon(R.drawable.add_class)
             .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         return true;
@@ -44,8 +41,12 @@ public class MainActivity extends SherlockActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
 		//TODO 添加班级课程
-		LYDao.addClass(new MClass());
-		Toast.makeText(this, "添加班级", Toast.LENGTH_SHORT).show();
+		if (item.getTitleCondensed().equals("扫描添加")) {
+			Intent intent = new Intent(this, SearchAddActivity.class);
+			intent.putExtra("class", mc);
+			startActivity(intent);
+		}
+		
 		return true;
 	}
 	
@@ -53,10 +54,13 @@ public class MainActivity extends SherlockActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+		Intent intent = getIntent();
+		mc  = (MClass) intent.getSerializableExtra("class");
 		dao = new LYDao(this);//初始化数据库
 		tianjia = (Button) findViewById(R.id.button1);
 		chakan = (Button) findViewById(R.id.button2);
+		bt_delete = (Button) findViewById(R.id.bt_delete);
+		bt_kaoqing = (Button) findViewById(R.id.bt_kaoqing);
 		
 		MyDataBase myDataBase = new MyDataBase(this, "blue_user");
 		SQLiteDatabase db = myDataBase.getReadableDatabase();
@@ -67,7 +71,8 @@ public class MainActivity extends SherlockActivity {
 			public void onClick(View v) {
 				//跳转至添加页面 收集数据
 				Intent intents = new Intent();
-				intents.setClass(MainActivity.this, AddActivity.class);
+				intents.setClass(ClassStudentListActivity.this, SearchAddActivity.class);
+				intents.putExtra("class", mc);
 				startActivity(intents);
 			}
 		});
@@ -78,7 +83,21 @@ public class MainActivity extends SherlockActivity {
 				// 跳转到点名界面
 				Intent intent = new Intent();
 				intent.putExtra("user", (Serializable)users);
-				intent.setClass(MainActivity.this, SerachActivity.class);
+				intent.setClass(ClassStudentListActivity.this, DianmingActivity.class);
+				startActivity(intent);
+			}
+		});
+		bt_delete.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(ClassStudentListActivity.this, DeleteStudentActivity.class);
+				startActivity(intent);
+			}
+		});
+		bt_kaoqing.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(ClassStudentListActivity.this, KaoqingDetailActivity.class);
 				startActivity(intent);
 			}
 		});
@@ -90,10 +109,11 @@ public class MainActivity extends SherlockActivity {
 	protected void onResume() {
 		super.onResume();
 		ListView listView = (ListView) findViewById(R.id.listView1);
-		LYDao dao = new LYDao(this);
-		users = LYDao.getStudents();//拿到数据源
+		
+		users = dao.getStudentsBySubject(mc);//拿到数据源
 		adapter = new MyAdapter(this, users, visflag);
 		listView.setAdapter(adapter);
+		
 		//选择复选框
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -107,6 +127,12 @@ public class MainActivity extends SherlockActivity {
                     viewHolder.cb.toggle(); 
                     MyAdapter.getIsSelected().set(position,  viewHolder.cb.isChecked());
                 }
+				else{
+					//跳转到学生详情
+					Intent intent = new Intent(ClassStudentListActivity.this,StudentInfoActivity.class);
+					intent.putExtra("user", users.get(position));
+					startActivity(intent);
+				}
 			}    
         });
 		//长按弹出复选框

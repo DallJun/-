@@ -18,21 +18,24 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".ClassStudentListActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".AddActivity"
+            android:name=".SearchAddActivity"
             android:label="@string/title_activity_add" >
         </activity>
         <activity
-            android:name=".SerachActivity"
+            android:name=".DianmingActivity"
             android:label="@string/title_activity_serach" >
+        </activity>
+        <activity
+            android:name="garrag.view.StudentInfoActivity"
+             >
         </activity>
         <activity
             android:name=".AddClassActivity"
@@ -43,6 +46,8 @@
             android:label="@string/title_activity_serach" >
         </activity>
         <uses-library android:name="android.test.runner"/>  
+        <activity android:name="garrag.view.DeleteStudentActivity"></activity>
+        <activity android:name="garrag.view.KaoqingDetailActivity"></activity>
     </application>
 	
     <uses-permission android:name="android.permission.BLUETOOTH" />

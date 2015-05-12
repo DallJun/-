@@ -17,7 +17,7 @@ import android.view.Menu;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-public class SerachActivity extends Activity {
+public class DianmingActivity extends Activity {
 
 	private ListView listView; 
 	private BluetoothAdapter bluetoothAdapter = null;
@@ -72,7 +72,7 @@ public class SerachActivity extends Activity {
 					u.setZhuangtai("0");
 					sa = listToadpater(users);
 					listView.setAdapter(sa);
-					SerachActivity.this.sa.notifyDataSetChanged();
+					DianmingActivity.this.sa.notifyDataSetChanged();
 				}
 			}
 		}

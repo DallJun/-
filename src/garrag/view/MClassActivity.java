@@ -34,7 +34,7 @@ public class MClassActivity extends SherlockActivity {
 		setContentView(R.layout.activity_mclass);
 		dao = new LYDao(this);
 		mComtext = this;
-		listView = (ListView) findViewById(R.id.class_listview);
+		
 	}
 
 	@Override
@@ -42,9 +42,9 @@ public class MClassActivity extends SherlockActivity {
 		super.onResume();
 		list = dao.getMClass();
 		ClassListAdpater adp = new ClassListAdpater(list);
+		listView = (ListView) findViewById(R.id.class_listview);
 		listView.setAdapter(adp);
 		listView.setOnItemClickListener(new OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {

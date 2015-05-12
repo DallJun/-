@@ -6,6 +6,7 @@ import garrag.view.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.R.bool;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +22,11 @@ public class MyAdapter extends BaseAdapter{
     private List<User> users;
     private static List<Boolean> boolList;
     private boolean visflag;
+    private boolean isDelete = false;
     
-    
+    public void setIsDelete(boolean flag){
+    	isDelete = flag;
+    }
 	public boolean isVisflag() {
 		return visflag;
 	}
@@ -105,15 +109,19 @@ public class MyAdapter extends BaseAdapter{
         holder.id.setText(u.getId());
         holder.mac.setText(u.getMac());
         holder.cb.setChecked(boolList.get(position));    
-            
-        if(visflag)    
-        {    
-            holder.cb.setVisibility(View.VISIBLE);    
-        }    
-        else    
-        {    
-            holder.cb.setVisibility(View.INVISIBLE);    
-        }    
+        if(isDelete){
+        	 holder.cb.setVisibility(View.VISIBLE);    
+        }
+        else{
+	        if(visflag)    
+	        {    
+	            holder.cb.setVisibility(View.VISIBLE);    
+	        }    
+	        else    
+	        {    
+	            holder.cb.setVisibility(View.INVISIBLE);    
+	        } 
+        }
         
         return convertView;    
     }    

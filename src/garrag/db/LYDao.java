@@ -33,6 +33,23 @@ public class LYDao {
 		return users;
 	}
 	
+	static public List<User> getStudentsBySubject(MClass mc) {
+		List<User> users = new ArrayList<User>();
+//		Cursor cursor = db.query("kaoqing", new String[]{"sid", "sname","smac"}, "class=? and subject=?", new String[]{mc.getClassName(), mc.getSubject()}, null, null, null);
+		Cursor cursor = db.rawQuery("select * from t_check as c INNER JOIN user as u on u.sid = c.sid where c.class=? and c.subject=?", new String[]{mc.getClassName(), mc.getSubject()});
+		while(cursor.moveToNext()) {
+			String name = cursor.getString(cursor.getColumnIndex("sname"));
+			String id = cursor.getString(cursor.getColumnIndex("sid"));
+			String mac = cursor.getString(cursor.getColumnIndex("smac"));
+			User u = new User();
+			u.setName(name);
+			u.setId(id);
+			u.setMac(mac);
+			users.add(u);
+		}
+		return users;
+	}
+	
 	static public void addClass(MClass mclass) {
 		db.execSQL("replace into course ('class','subject','monitor','classnum','dep') VALUES (?,?,?,?,?)",
 				new Object[]{mclass.getClassName(), mclass.getSubject(), mclass.getMonitor(), 0, mclass.getDep()});
@@ -55,6 +72,16 @@ public class LYDao {
 		}
 		return list;
 	}
+	/**
+	 * 添加考勤记录(在添加学生的时候 需要添加对应的考勤记录)
+	 * @param u  学生
+	 * @param mc  所属班级
+	 */
+	public void addCheckItem(User u, MClass mc) {
+		db.execSQL("replace into t_check ('class','subject','sid') VALUES (?,?,?)",
+				new String[]{mc.getClassName(), mc.getSubject(), u.getId()});
+	}
+	
 }
 
 

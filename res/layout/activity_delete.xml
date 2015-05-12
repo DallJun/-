@@ -50,12 +50,12 @@
         android:layout_alignParentBottom="true" >
 
         <Button
-            android:id="@+id/bt_delete"
+            android:id="@+id/bt_all"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="刪除" />
+            android:text="全选" />
 
         <Button
             android:id="@+id/button2"
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="点名" />
+            android:text="删除" />
 
         <Button
             android:id="@+id/button1"
@@ -71,15 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="添加" />
-        
-        <Button
-            android:id="@+id/bt_kaoqing"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="考勤" />
+            android:text="反选" />
     </LinearLayout>
 
 </RelativeLayout>
