@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 /**
  * 学生详情
- * @author wangmin
+ * @author tc
  *
  */
 public class StudentInfoActivity extends Activity implements OnClickListener{

@@ -49,7 +49,10 @@ public class LYDao {
 		}
 		return users;
 	}
-	
+	/**
+	 * 添加班级进入数据库
+	 * @param mclass
+	 */
 	static public void addClass(MClass mclass) {
 		db.execSQL("replace into course ('class','subject','monitor','classnum','dep') VALUES (?,?,?,?,?)",
 				new Object[]{mclass.getClassName(), mclass.getSubject(), mclass.getMonitor(), 0, mclass.getDep()});
@@ -142,14 +145,20 @@ public class LYDao {
 	 * @param i
 	 */
 	public void updateUnsgin(User u, MClass mc, int i) {
-		Cursor cursor  = db.rawQuery("select unsgin from t_check where class=? and subject=? and sid=?", new String[]{mc.getClassName(), mc.getSubject(), u.getId()});
+		Cursor cursor  = db.rawQuery("select unsgin from t_check where class=? and subject=? and sid=?",
+				new String[]{mc.getClassName(), mc.getSubject(), u.getId()});
 		while(cursor.moveToNext()){
 			int num =  cursor.getInt(cursor.getColumnIndex("unsgin"));
 			num+=i;
 			db.execSQL("update t_check set unsgin=? where class=? and subject=? and sid=?", new Object[]{num, mc.getClassName(), mc.getSubject(), u.getId()});
 		}
 	}
-
+	/**
+	 * 通过班级和学生获取考勤信息
+	 * @param mc
+	 * @param user
+	 * @return
+	 */
 	public KaoqingDetail getKaoqingByClassAndStudent(MClass mc, User user) {
 		KaoqingDetail kq = new KaoqingDetail();
 		Cursor cursor  = db.rawQuery("select * from t_check where sid=? and class=? and subject=?", new String[]{user.getId(), mc.getClassName(), mc.getSubject()});

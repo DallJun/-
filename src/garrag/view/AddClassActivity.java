@@ -1,5 +1,7 @@
 package garrag.view;
-
+/**
+ * 添加班级界面
+ */
 import garrag.db.LYDao;
 import garrag.shiti.MClass;
 import android.os.Bundle;

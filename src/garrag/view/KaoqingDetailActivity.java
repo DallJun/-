@@ -1,4 +1,7 @@
 package garrag.view;
+/**
+ * 所有学生考勤情况
+ */
 import garrag.db.LYDao;
 import garrag.shiti.KaoqingDetail;
 import garrag.shiti.MClass;

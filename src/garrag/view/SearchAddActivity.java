@@ -1,4 +1,7 @@
 package garrag.view;
+/**
+ * 扫描添加
+ */
 import garrag.db.LYDao;
 import garrag.db.MyDataBase;
 import garrag.shiti.MClass;
@@ -21,8 +24,10 @@ import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -43,6 +48,7 @@ public class SearchAddActivity extends SherlockActivity {
 	private EditText eName,eId;
 	MClass mc;
 	LYDao dao;
+	private Button bt_add;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +59,37 @@ public class SearchAddActivity extends SherlockActivity {
 		Intent intent = getIntent();
 		mc  = (MClass) intent.getSerializableExtra("class");
 		listView = (ListView) findViewById(R.id.shaomiao_result);
+		bt_add = (Button) findViewById(R.id.bt_add);
+		//一键添加 便利data
+		bt_add.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(null!=data&&data.size()>0){
+					for(int i= 0 ; i<data.size() ; i++){
+						User u = new User();
+						u.setName(data.get(i).get("user_name"));
+						u.setId(data.get(i).get("user_id"));
+						u.setMac(data.get(i).get("user_address"));
+						addUser(u);
+					}
+					
+					
+				}else{
+					Toast toast=new Toast(SearchAddActivity.this);
+					toast.makeText(SearchAddActivity.this, "暂无设备", 0).show();
+					
+				}
+				
+			}
+		});
 		
+		//注册蓝牙信息
 		IntentFilter intentFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+		//注册蓝牙接收者
 		bluetoothReceiver = new BluetoothReceiver();
 		registerReceiver(bluetoothReceiver, intentFilter);
+		//获得蓝牙适配器
 		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		
 		listView.setOnItemClickListener(new OnItemClickListener() {
@@ -68,6 +101,13 @@ public class SearchAddActivity extends SherlockActivity {
 				AlertDialog.Builder builder = new Builder(SearchAddActivity.this);
 					builder.setTitle("添加...");
 					View v = SearchAddActivity.this.getLayoutInflater().inflate(R.layout.activity_add_isadd, null);
+					
+					eName = (EditText) v.findViewById(R.id.editText1);
+					eId = (EditText) v.findViewById(R.id.editText2);
+					
+					eName.setText(data.get(arg2).get("user_name"));
+					eId.setText(data.get(arg2).get("user_id"));
+					
 					builder.setView(v); 
 					
 					// 对输入的数据做处理
@@ -115,18 +155,21 @@ public class SearchAddActivity extends SherlockActivity {
 		this.setResult(1, intent);
 		this.finish();
 	}*/
-	//蓝牙接收器
+	/**
+	 * 蓝牙接收器
+	 * @author asus
+	 *
+	 */
 	private class BluetoothReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			//获取蓝牙动作
 			String action = intent.getAction();
+			//判断蓝牙动作是否是  找到对方蓝牙驱动的动作
 			if(BluetoothDevice.ACTION_FOUND.equals(action)) {
+				//获取搜索到的蓝牙驱动信息
 				BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-				System.out.println("扫描到了------" + device.getName());
-				/*User u = new User();
-				u.setName(device.getName());
-				u.setMac(device.getAddress());
-				*/
+//System.out.println("扫描到了------" + device.getName());
 				User u = getUserInfo(device.getName(), device.getAddress());
 				users.add(u);		
 				Toast.makeText(context, u.getName() + ":" + u.getId(), 1).show();
@@ -139,12 +182,13 @@ public class SearchAddActivity extends SherlockActivity {
 	
 	//把List转化成SimpleAdapter
 	public SimpleAdapter listToadpater(List<User> users) {
-		List<HashMap<String , String>> data = new ArrayList<HashMap<String,String>>();
+		data = new ArrayList<HashMap<String,String>>();
 		for (Iterator iterator = users.iterator(); iterator.hasNext();) {
 			User u = (User) iterator.next();
 			HashMap<String, String> hm = new HashMap<String, String>();
 			hm.put("user_name", u.getName());
 			hm.put("user_address", u.getMac());
+			hm.put("user_id", u.getId());
 			data.add(hm);
 		}
 		sa = new SimpleAdapter(this, data, R.layout.activity_shaomiao, new String[]{"user_name","user_address"}, new int[]{R.id.user_name,R.id.user_adress});
@@ -152,8 +196,11 @@ public class SearchAddActivity extends SherlockActivity {
 	}
 	
 	private ProgressDialog dialog = null;
+	private List<HashMap<String , String>> data;
 	//定义响应扫描按钮
 	public void shaomiao(View view) {
+		
+		//开启蓝牙扫描
 		bluetoothAdapter.startDiscovery();
 System.out.println("开始搜索");
 		if(users.size() > 0) {
@@ -167,8 +214,6 @@ System.out.println("user have count-----------:" + users.size());
 		dialog.setCancelable(true);
 		dialog.setCanceledOnTouchOutside(true);
 		dialog.show();
-		/*new AlertDialog.Builder(this).setMessage( 
-                "开始搜索").create().show(); */
 	}
 	//添加用户
 	public void addUser(User u) {

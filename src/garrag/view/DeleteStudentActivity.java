@@ -1,4 +1,7 @@
 package garrag.view;
+/**
+ * 暂时无用
+ */
 import java.util.List;
 import garrag.db.LYDao;
 import garrag.shiti.User;

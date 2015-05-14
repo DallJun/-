@@ -1,5 +1,7 @@
 package garrag.utirl;
-
+/**
+ * 自定义的适配器 主要长按弹出勾选框 便于删除
+ */
 import garrag.shiti.User;
 import garrag.view.R;
 
@@ -17,12 +19,12 @@ import android.widget.TextView;
 
 public class MyAdapter extends BaseAdapter{
 
-    private Context context;  
-    private LayoutInflater inflater = null; 
-    private List<User> users;
-    private static List<Boolean> boolList;
-    private boolean visflag;
-    private boolean isDelete = false;
+    private Context context;   //上下文
+    private LayoutInflater inflater = null;  //打气筒 用于加载xml布局文件
+    private List<User> users;  //数据源（所有的学生）
+    private static List<Boolean> boolList;  //与学生对应的学生的勾选状态
+    private boolean visflag;   //是否显示勾选款
+    private boolean isDelete = false;   
     
     public void setIsDelete(boolean flag){
     	isDelete = flag;

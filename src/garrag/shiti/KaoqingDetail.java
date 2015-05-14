@@ -1,8 +1,8 @@
 package garrag.shiti;
 public class KaoqingDetail {
 	public User user;
-	public int quedao;
-	public int chidao;
+	public int quedao;  //缺到
+	public int chidao; //移到
 	
 	
 	public User getUser() {

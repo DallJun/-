@@ -1,5 +1,7 @@
 package garrag.view;
-
+/**
+ * 班级信息
+ */
 import garrag.db.LYDao;
 import garrag.shiti.MClass;
 import android.content.Context;

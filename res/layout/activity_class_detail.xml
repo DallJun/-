@@ -286,7 +286,7 @@
                 android:layout_marginLeft="50dp"
                 android:layout_toRightOf="@+id/textView5"
                 android:ems="7"
-                android:text="周俊波"
+                android:text="tang"
                 android:textSize="16dp" />
         </RelativeLayout>
 

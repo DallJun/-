@@ -25,6 +25,7 @@ public class User implements Serializable{
 		this.name = name;
 		this.id = id;
 		this.mac = mac;
+		this.zhuangtai = "1";
 	}
 
 	public String getName() {

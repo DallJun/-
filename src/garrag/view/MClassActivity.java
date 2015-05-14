@@ -1,5 +1,6 @@
 package garrag.view;
-
+/** 班级列表
+ */
 import java.io.Serializable;
 import java.util.ArrayList;
 
