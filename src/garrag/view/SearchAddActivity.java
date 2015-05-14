@@ -73,8 +73,6 @@ public class SearchAddActivity extends SherlockActivity {
 						u.setMac(data.get(i).get("user_address"));
 						addUser(u);
 					}
-					
-					
 				}else{
 					Toast toast=new Toast(SearchAddActivity.this);
 					toast.makeText(SearchAddActivity.this, "暂无设备", 0).show();

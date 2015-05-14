@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -50,9 +51,8 @@ public class ClassDetailActivity extends SherlockActivity {
 		name.setEnabled(false);
 		subject.setEnabled(false);
 		
-		ImageButton but = (ImageButton) findViewById(R.id.class_detail_student);
+		Button but = (Button) findViewById(R.id.class_detail_student);
 		but.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View arg0) {
 				//进入班级学生列表

@@ -295,7 +295,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/underline" />
         
-                <RelativeLayout
+         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="33dp" >
 
@@ -317,7 +317,7 @@
                 android:layout_toRightOf="@+id/imageView6"
                 android:text="班级组成" />
 
-            <ImageButton
+          <!--   <ImageButton
                 android:layout_centerVertical="true"
                 android:id="@+id/class_detail_student"
                 android:layout_width="wrap_content"
@@ -325,8 +325,19 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:background="@null"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/deta_right" /> -->
+            <Button  
+                android:id="@+id/class_detail_student"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
                 android:layout_marginRight="5dp"
-                android:src="@drawable/deta_right" />
+                android:text="进入"
+                android:textSize="10dp"
+                />
+            
         </RelativeLayout>
 
         <ImageView
