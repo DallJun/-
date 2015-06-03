@@ -3,7 +3,6 @@ package garrag.view;
  * 扫描添加
  */
 import garrag.db.LYDao;
-import garrag.db.MyDataBase;
 import garrag.shiti.MClass;
 import garrag.shiti.User;
 import java.util.ArrayList;
@@ -16,12 +15,10 @@ import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -62,7 +59,6 @@ public class SearchAddActivity extends SherlockActivity {
 		bt_add = (Button) findViewById(R.id.bt_add);
 		//一键添加 便利data
 		bt_add.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				if(null!=data&&data.size()>0){
@@ -76,9 +72,7 @@ public class SearchAddActivity extends SherlockActivity {
 				}else{
 					Toast toast=new Toast(SearchAddActivity.this);
 					toast.makeText(SearchAddActivity.this, "暂无设备", 0).show();
-					
 				}
-				
 			}
 		});
 		
@@ -256,6 +250,7 @@ System.out.println("user have count-----------:" + users.size());
 			user = new User();
 			user.setName(lanya);
 			user.setMac(mac);
+			user.setId("0");
 		}
 		return user;
 	}
